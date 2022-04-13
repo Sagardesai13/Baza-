@@ -16,10 +16,10 @@ app.use(fileUpload({
 }))
 
 // Routes
-app.use('/user', require('./routes/userRouter'));
-app.use('/api', require('./routes/categoryRouter'));
-app.use('/api', require('./routes/upload'));
-app.use('/api', require('./routes/productRouter'));
+app.use('/bazar', require('./routes/userRouter'));
+app.use('/bazar', require('./routes/categoryRouter'));
+app.use('/bazar', require('./routes/upload'));
+app.use('/bazar', require('./routes/productRouter'));
 
 // Connect to mongodb
 const URI = process.env.MONGODB_URL
