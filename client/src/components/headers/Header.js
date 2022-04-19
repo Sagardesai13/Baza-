@@ -14,7 +14,7 @@ function Header() {
     const [menu, setMenu] = useState(false)
 
     const logoutUser = async () => {
-        await axios.get('/bazar/logout')
+        await axios.get('http://localhost:5000/bazar/logout')
 
         localStorage.removeItem('firstLogin')
 

@@ -11,7 +11,7 @@ function UserAPI(token) {
         if (token) {
             const getUser = async () => {
                 try {
-                    const res = await axios.get('/bazar/infor', {
+                    const res = await axios.get('http://localhost:5000/bazar/infor', {
                         headers: { Authorization: token }
                     })
 

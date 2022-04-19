@@ -15,12 +15,12 @@ function Categories() {
         e.preventDefault()
         try {
             if (onEdit) {
-                const res = await axios.put(`/bazar/category/${id}`, { name: category }, {
+                const res = await axios.put(`http://localhost:5000/bazar/category/${id}`, { name: category }, {
                     headers: { Authorization: token }
                 })
                 alert(res.data.msg)
             } else {
-                const res = await axios.post('/bazar/category', { name: category }, {
+                const res = await axios.post('http://localhost:5000/bazar/category', { name: category }, {
                     headers: { Authorization: token }
                 })
                 alert(res.data.msg)
@@ -42,7 +42,7 @@ function Categories() {
 
     const deleteCategory = async id => {
         try {
-            const res = await axios.delete(`/bazar/category/${id}`, {
+            const res = await axios.delete(`http://localhost:5000/bazar/category/${id}`, {
                 headers: { Authorization: token }
             })
             alert(res.data.msg)
