@@ -1,8 +1,5 @@
-auth
-cart
+
 categories
 createProduct
-detailProduct
 history
-products
-utils
+
