@@ -42,7 +42,7 @@ function UserAPI(token) {
         if (check) {
             setCart([...cart, { ...product, quantity: 1 }])
 
-            await axios.patch('/bazar/addcart', { cart: [...cart, { ...product, quantity: 1 }] }, {
+            await axios.patch('http://localhost:5000/bazar/addcart', { cart: [...cart, { ...product, quantity: 1 }] }, {
                 headers: { Authorization: token }
             })
 
