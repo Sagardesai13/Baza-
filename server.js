@@ -20,6 +20,7 @@ app.use('/bazar', require('./routes/userRouter'));
 app.use('/bazar', require('./routes/categoryRouter'));
 app.use('/bazar', require('./routes/upload'));
 app.use('/bazar', require('./routes/productRouter'));
+app.use('/bazar', require('./routes/paymentRouter'));
 
 // Connect to mongodb
 const URI = process.env.MONGODB_URL

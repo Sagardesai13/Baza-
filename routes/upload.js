@@ -13,9 +13,10 @@ cloudinary.config({
 })
 
 // Upload image only admin can use
-router.post('/upload', auth, authAdmin, (req, res) => {
+router.post('/upload', (req, res) => {
 
     try {
+        // console.log("files: ",req.body.formData.files);
         if (!req.files || Object.keys(req.files).length === 0) 
         {
             return res.status(400).json({ msg: 'No files were uploaded.' });
@@ -54,7 +55,7 @@ router.post('/upload', auth, authAdmin, (req, res) => {
 })
 
 // Delete image only admin can use
-router.post('/destroy', auth, authAdmin, (req, res) => {
+router.post('/destroy', (req, res) => {
 
     try {
 
