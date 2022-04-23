@@ -36,14 +36,7 @@ const userCtrl = {
 
             // Then create jsonwebtoken to authentication
             const accesstoken = createAccessToken({ id: newUser._id });
-            const refreshtoken = createRefreshToken({ id: newUser._id });
-
-            res.cookie('refreshtoken', refreshtoken, {
-
-                httpOnly: true,
-                path: '/user/refresh_token',
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
-            })
+            // const refreshtoken = createRefreshToken({ id: newUser._id });
 
             res.json({ accesstoken });
 
@@ -72,14 +65,23 @@ const userCtrl = {
 
             // If login success , create access token and refresh token
             const accesstoken = createAccessToken({id: user._id});
-            const refreshtoken = createRefreshToken({id: user._id});
+            // const refreshtoken = createRefreshToken({id: user._id});
 
-            res.cookie('refreshtoken', refreshtoken, {
+            // console.log(refreshtoken);
+            // res.cookie('reftoken',refreshtoken);.
+            // try{
+            //     res.cookie('refreshtoken', refreshtoken, {
+            //         httpOnly: true,
+            //         path: 'http://localhost:5000/bazar/refresh_token',
+            //         maxAge: 7*24*60*60*1000 // 7d
+            //     })
+            //     console.log("Cookie has been set");
+            // }catch(err){
+            //     console.log(err);
+            // }
+            
 
-                httpOnly: true,
-                path: '/user/refresh_token',
-                maxAge: 7*24*60*60*1000 // 7d
-            })
+            
 
             res.json({accesstoken});
 
@@ -91,7 +93,7 @@ const userCtrl = {
     logout: async (req, res) =>{
         try {
 
-            res.clearCookie('refreshtoken', {path: '/user/refresh_token'});
+            res.clearCookie('refreshtoken', {path: 'http://localhost:5000/bazar/refresh_token'});
             return res.json({msg: "Logged out"});
         } catch (err) {
 
@@ -102,33 +104,37 @@ const userCtrl = {
 
         try {
 
-            const rf_token = req.cookies.refreshtoken;
+            const rf_token = req.body.accesstoken;
+            console.log("rf_token @refreshToken: ",rf_token);
 
             if (!rf_token) 
             {
-                return res.status(400).json({ msg: "Please Login or Register" });
+                return res.json({ msg: "Please Login or Register 1" });
             }
 
-            jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-
+            jwt.verify(rf_token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+                console.log("user @userCtrl.js: ", user);
                 if (err) 
                 {
-                    return res.status(400).json({ msg: "Please Login or Register" });
+                    return res.json({ msg: "Please Login or Register 2" });
                 }
 
-                const accesstoken = createAccessToken({ id: user.id });
+                const accesstoken = createRefreshToken({ id: user._id });
 
-                res.json({ accesstoken });
+                res.json({ accesstoken:accesstoken,flag:true });
             })
 
         } catch (err) {
-
+            console.log(err.message);
             return res.status(500).json({ msg: err.message });
         }
 
     },
     getUser: async (req, res) =>{
+        console.log("headers from req :",req.body.token);
+        // jwt.verify(rf_token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 
+        // })
         try {
 
             const user = await Users.findById(req.user.id).select('-password');
@@ -171,13 +177,14 @@ const userCtrl = {
 }
 
 
+
 const createAccessToken = (user) => {
 
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '11m' });
 }
 const createRefreshToken = (user) => {
 
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d' });
 }
 
 module.exports = userCtrl

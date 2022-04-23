@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 const auth = (req, res, next) =>{
 
     try {
-
-        const token = req.header("Authorization");
-
+        
+        const token = req.body.token;
+        console.log("@ auth middleware :",token);
         if(!token) 
         {
             return res.status(400).json({msg: "Invalid Authentication"});
@@ -19,7 +19,8 @@ const auth = (req, res, next) =>{
             }
 
             req.user = user;
-
+            console.log("user from db :",user);
+            console.log("req to next fn :",req.user);
             next();
         })
     } catch (err) {
