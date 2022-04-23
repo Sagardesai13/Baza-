@@ -15,9 +15,10 @@ function Login() {
     const loginSubmit = async e => {
         e.preventDefault()
         try {
-            await axios.post('http://localhost:5000/bazar/login', { ...user })
-
-            localStorage.setItem('firstLogin', true)
+            const aToken=await axios.post('http://localhost:5000/bazar/login', { ...user })
+            console.log("aToken @login.js :",aToken.data.accesstoken);
+            localStorage.setItem('firstLogin', true);
+            localStorage.setItem('accesstoken',aToken.data.accesstoken);
 
             window.location.href = "/";
         } catch (err) {

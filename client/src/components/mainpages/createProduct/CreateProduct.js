@@ -63,11 +63,12 @@ function CreateProduct() {
                 return alert("File format is incorrect.")
 
             let formData = new FormData()
-            formData.append('file', file)
+            formData.append('file', file);
+            // formData.append('token',token);
 
             setLoading(true)
             const res = await axios.post('http://localhost:5000/bazar/upload', formData, {
-                headers: { 'content-type': 'multipart/form-data', Authorization: token }
+                headers: { 'content-type': 'multipart/form-data'}
             })
             setLoading(false)
             setImages(res.data)
@@ -81,9 +82,7 @@ function CreateProduct() {
         try {
             if (!isAdmin) return alert("You're not an admin")
             setLoading(true)
-            await axios.post('http://localhost:5000/bazar/destroy', { public_id: images.public_id }, {
-                headers: { Authorization: token }
-            })
+            await axios.post('http://localhost:5000/bazar/destroy', { public_id: images.public_id,token:token })
             setLoading(false)
             setImages(false)
         } catch (err) {
@@ -103,13 +102,9 @@ function CreateProduct() {
             if (!images) return alert("No Image Upload")
 
             if (onEdit) {
-                await axios.put(`http://localhost:5000/bazar/products/${product._id}`, { ...product, images }, {
-                    headers: { Authorization: token }
-                })
+                await axios.put(`http://localhost:5000/bazar/products/${product._id}`, { ...product, images,token:token })
             } else {
-                await axios.post('http://localhost:5000/bazar/products', { ...product, images }, {
-                    headers: { Authorization: token }
-                })
+                await axios.post('http://localhost:5000/bazar/products', { ...product, images,token })
             }
             setCallback(!callback)
             history.push("/")

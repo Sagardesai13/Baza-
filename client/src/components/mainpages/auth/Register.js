@@ -15,9 +15,10 @@ function Register() {
     const registerSubmit = async e => {
         e.preventDefault()
         try {
-            await axios.post('http://localhost:5000/bazar/register', { ...user })
+            const aToken=await axios.post('http://localhost:5000/bazar/register', { ...user })
 
-            localStorage.setItem('firstLogin', true)
+            localStorage.setItem('firstLogin', true);
+            localStorage.setItem('accesstoken',aToken.data.accesstoken);
 
 
             window.location.href = "/";

@@ -9,16 +9,33 @@ export const GlobalState = createContext()
 
 
 export const DataProvider = ({ children }) => {
-    const [token, setToken] = useState(false)
+    const [token, setToken] = useState(false);
 
 
     useEffect(() => {
-        const firstLogin = localStorage.getItem('firstLogin')
+        const firstLogin = localStorage.getItem('firstLogin');
+        const atoken=localStorage.getItem('accesstoken');
+        
         if (firstLogin) {
+            
             const refreshToken = async () => {
-                const res = await axios.get('http://localhost:5000/bazar/refresh_token')
+                
+                const res = await axios.post('http://localhost:5000/bazar/refresh_token',{
+                    accesstoken:atoken
+                }).then((res)=>{
+                    console.log(res);
+                    console.log("success!!");
+                    console.log("New Token :",res.data.accesstoken);
+                    console.log("flag :",res.data.accesstoken);
+                    // UserAPI(token);
+                    setToken(res.data.accesstoken);
+                }).catch((err)=>{
+                    console.log(err);
+                })
+                
+                
 
-                setToken(res.data.accesstoken)
+                
 
                 setTimeout(() => {
                     refreshToken()

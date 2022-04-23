@@ -23,9 +23,7 @@ function Cart() {
     }, [cart])
 
     const addToCart = async (cart) => {
-        await axios.patch('http://localhost:5000/bazar/addcart', { cart }, {
-            headers: { Authorization: token }
-        })
+        await axios.patch('http://localhost:5000/bazar/addcart', { cart,token:token })
     }
 
 
@@ -67,9 +65,7 @@ function Cart() {
     const tranSuccess = async (payment) => {
         const { paymentID, address } = payment;
 
-        await axios.post('http://localhost:5000/bazar/payment', { cart, paymentID, address }, {
-            headers: { Authorization: token }
-        })
+        await axios.post('http://localhost:5000/bazar/payment', { cart, paymentID, address,token })
 
         setCart([])
         addToCart([])

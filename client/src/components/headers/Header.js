@@ -17,6 +17,7 @@ function Header() {
         await axios.get('http://localhost:5000/bazar/logout')
 
         localStorage.removeItem('firstLogin')
+        localStorage.removeItem('accesstoken')
 
         window.location.href = "/";
     }

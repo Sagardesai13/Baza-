@@ -9,10 +9,12 @@ function UserAPI(token) {
 
     useEffect(() => {
         if (token) {
+            const atoken=localStorage.getItem('accesstoken');
+            console.log("@userApi.js :... ");
             const getUser = async () => {
                 try {
-                    const res = await axios.get('http://localhost:5000/bazar/infor', {
-                        headers: { Authorization: token }
+                    const res = await axios.post('http://localhost:5000/bazar/infor', {
+                        token:atoken
                     })
 
                     setIsLogged(true)
@@ -42,9 +44,7 @@ function UserAPI(token) {
         if (check) {
             setCart([...cart, { ...product, quantity: 1 }])
 
-            await axios.patch('http://localhost:5000/bazar/addcart', { cart: [...cart, { ...product, quantity: 1 }] }, {
-                headers: { Authorization: token }
-            })
+            await axios.patch('http://localhost:5000/bazar/addcart', { cart: [...cart, { ...product, quantity: 1 }], token:token})
 
         } else {
             alert("This product has been added to cart.")
